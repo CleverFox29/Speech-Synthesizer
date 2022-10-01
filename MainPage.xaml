@@ -1,0 +1,135 @@
+﻿<Page
+    x:Class="Speech_Synthesizer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Speech_Synthesizer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    <Grid >
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition />
+
+        </Grid.RowDefinitions>
+        <Grid 
+            Grid.Row="0" 
+            x:Name="AppTitleBar" Background="Transparent">
+            <!-- Width of the padding columns is set in LayoutMetricsChanged handler. -->
+            <!-- Using padding columns instead of Margin ensures that the background
+                 paints the area under the caption control buttons (for transparent buttons). -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftPaddingColumn" Width="0"/>
+                <ColumnDefinition/>
+                <ColumnDefinition x:Name="RightPaddingColumn" Width="0"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="Assets/StoreLogo.png" 
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   Width="16" Height="16"
+                   Margin="8,0,0,0"/>
+            <TextBlock x:Name="AppTitleTextBlock"
+                       Text="Speech Synthesizer" 
+                       Style="{StaticResource CaptionTextBlockStyle}" 
+                       Grid.Column="1"
+                       VerticalAlignment="Center"
+                       Margin="28,0,0,0"/>
+        </Grid>
+        <Grid Grid.Row="1" Name  ="Main" Padding="15,20,15,20">
+            <RelativePanel HorizontalAlignment="Stretch">
+                <AppBarSeparator 
+                    Margin="15,10,15,10" 
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    Name="sep"/>
+
+                <TextBox   
+                    TextWrapping="Wrap"
+                    AcceptsReturn="True"
+                    x:Name="Speech"
+                    PlaceholderText="Enter your text here" 
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Margin="15,10,15,10" 
+                    TextChanged="Speech_TextChanged" 
+                    VerticalAlignment="Stretch"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignBottomWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.LeftOf="sep"/>
+
+                <Grid RelativePanel.RightOf="sep"
+                      RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.AlignBottomWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True">
+
+
+
+                    <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ScrollViewer x:Name="scrPlayers" 
+                                      VerticalScrollMode="Auto" 
+                                      VerticalScrollBarVisibility="Auto"
+                                      RelativePanel.Above="speak"
+                                      RelativePanel.AlignTopWithPanel="True"
+                                      RelativePanel.AlignLeftWithPanel="True"
+                                      RelativePanel.AlignRightWithPanel="True">
+                            <StackPanel Orientation="Vertical"
+                                      RelativePanel.AlignTopWithPanel="True"
+                                      RelativePanel.AlignLeftWithPanel="True"
+                                      RelativePanel.AlignRightWithPanel="True">
+                                <ComboBox x:Name="Voice" Header="Voice:"
+                                    Margin="15,10,15,10" 
+                                    HorizontalAlignment="Stretch"
+                                    SelectionChanged="Voice_SelectionChanged"
+                                    RelativePanel.AlignLeftWithPanel="True"
+                                    RelativePanel.AlignRightWithPanel="True"
+                                 />
+                                <Slider Name="pitch" Header="Pitch:"
+                                      Margin="15,10,15,10" 
+                                     HorizontalAlignment="Stretch"
+                                    ValueChanged="Pitch_ValueChanged"
+                                      RelativePanel.AlignLeftWithPanel="True"
+                                      RelativePanel.AlignRightWithPanel="True"
+                                        Minimum="0"
+                                        Maximum="200"
+                                />
+                                <Slider Name="volume" Header="Volume:"
+                                    Margin="15,10,15,10" 
+                                  HorizontalAlignment="Stretch"
+                                        ValueChanged="Volume_ValueChanged"
+                                      RelativePanel.AlignLeftWithPanel="True"
+                                      RelativePanel.AlignRightWithPanel="True"
+                                />
+                                <Slider Name="speakingRate" Header="Speaking Rate:"
+                                     Margin="15,10,15,10" 
+                                     HorizontalAlignment="Stretch" 
+                                        ValueChanged="SpeakingRate_ValueChanged"
+                                      RelativePanel.AlignLeftWithPanel="True"
+                                      RelativePanel.AlignRightWithPanel="True"
+                                        Maximum="600"
+                                        Minimum="50"
+                                />
+                            </StackPanel>
+                        </ScrollViewer>
+                        <Button x:Name="speak" Margin="15,10,15,10" 
+                                RelativePanel.AlignBottomWithPanel="True"
+                                Click="Speak_Click" RelativePanel.AlignRightWithPanel="True"
+                        Style="{StaticResource AccentButtonStyle}"  />
+                        <Button Name="save" Margin="15,10,15,10"
+                                Content="💾 Save as .mp3"
+                                RelativePanel.AlignBottomWithPanel="True"
+                                RelativePanel.LeftOf="speak" Click="Save_Click"/>
+                    </RelativePanel>
+
+                    <MediaElement Name="media"  Visibility="Collapsed" MediaEnded="Media_MediaEnded"/>
+
+
+                </Grid>
+
+            </RelativePanel>
+        </Grid>
+    </Grid>
+</Page>
